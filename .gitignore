@@ -1,0 +1,8 @@
+# Sensitive Information
+privates.java
+
+# IDE Files
+.vscode
+
+# MACOS Files
+.DS_Store
