@@ -3,6 +3,20 @@ privates.java
 
 # IDE Files
 .vscode
+/DiscordWebhook$EmbedObject$Author.class
+/DiscordWebhook$EmbedObject$Field.class
+/DiscordWebhook$EmbedObject$Footer.class
+/DiscordWebhook$EmbedObject$Image.class
+/DiscordWebhook$EmbedObject$Thumbnail.class
+/DiscordWebhook$EmbedObject.class
+/DiscordWebhook$JSONObject.class
+/DiscordWebhook.class
+/Webhook.class
+/privatesExample.class
+/privatesExample2.class
+/privates.class
+.classpath
+.project
 
 # MACOS Files
 .DS_Store
