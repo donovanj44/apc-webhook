@@ -17,6 +17,7 @@ privates.java
 /privates.class
 .classpath
 .project
+creds.json
 
 # MACOS Files
 .DS_Store
