@@ -18,6 +18,9 @@ privates.java
 .classpath
 .project
 creds.json
+target/
+*.iml
+.idea/*
 
 # MACOS Files
 .DS_Store
