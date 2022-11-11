@@ -24,6 +24,8 @@ public class Webhook extends Privates {
 
     final String question1Id = "059d7375", question2Id = "106fb4ba", question3Id = "01f8242e", question4Id = "69fbc838";
 
+    String name, college, major;
+
     private static final String APPLICATION_NAME = "apc-webhook";
     private static Forms formsService;
 
@@ -85,6 +87,9 @@ public class Webhook extends Privates {
         System.out.println(responses.toPrettyString());
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
         System.out.println(response.toPrettyString());
+        JSONObject responseJson = new JSONObject(response);
+
+
     }
 
 
