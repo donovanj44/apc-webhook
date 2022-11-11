@@ -3,17 +3,21 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.FormsScopes;
-import com.google.api.services.forms.v1.model.*;
+import com.google.api.services.forms.v1.model.FormResponse;
+import com.google.api.services.forms.v1.model.ListFormResponsesResponse;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rapidoid.http.Req;
 import org.rapidoid.http.Resp;
-import org.rapidoid.setup.On;
+import org.rapidoid.setup.*;
 
-import java.net.*;
-import java.io.*;
+
+import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Objects;
+
+
 
 
 public class Webhook extends Privates {
@@ -40,13 +44,29 @@ public class Webhook extends Privates {
         }
     }
 
-    public static void main(String[] args) throws IOException {
 
-        On.get("/fire").json()
-//        On.get("/fire")((Req req)) -> {
-//            Resp resp = req.response();
-//        }
+    public static void main(String[] args){
+        On.get("/fire").html((Req req) -> {
+            Resp resp = req.response();
+            fireWebhook();
+            return resp;
+        });
 
+
+    }
+
+
+
+
+
+    public static void fireWebhook() throws IOException {
+
+        String token = getAccessToken();
+        readResponses(formID, token);
+        DiscordWebhook webhook = new DiscordWebhook(url);
+        webhook.setAvatarUrl(avatarUrl);
+        webhook.setContent("Test");
+        webhook.execute();
     }
 
     public static String getAccessToken() throws IOException {
@@ -57,23 +77,15 @@ public class Webhook extends Privates {
                 credential.refreshAccessToken().getTokenValue();
     }
 
-    public static void fireWebhook() throws IOException {
-        String token = getAccessToken();
-        readResponses(formID, token);
-        DiscordWebhook webhook = new DiscordWebhook(url);
-        webhook.setAvatarUrl(avatarUrl);
-        webhook.setContent("Test");
-        webhook.execute();
-    }
-
-
-    private static void readResponses(String formId, String token) throws IOException {
+    public static void readResponses(String formId, String token) throws IOException {
         ListFormResponsesResponse responses = formsService.forms().responses().list(formId).setOauthToken(token).execute();
-        JSONObject json = new JSONObject(responses);
-        JSONArray arr = json.getJSONArray("responses");
+        JSONObject goodJson = new JSONObject(responses);
+        JSONArray arr = goodJson.getJSONArray("responses");
         String responseID = arr.getJSONObject(arr.length() - 1).getString("responseId");
         System.out.println(responses.toPrettyString());
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
         System.out.println(response.toPrettyString());
     }
+
+
 }
