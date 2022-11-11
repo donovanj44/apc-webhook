@@ -40,3 +40,4 @@ target/
 
 # MACOS Files
 .DS_Store
+/.idea/
