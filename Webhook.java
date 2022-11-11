@@ -7,9 +7,11 @@ import com.google.api.services.forms.v1.model.*;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rapidoid.http.Resp;
+import org.rapidoid.setup.On;
 
-
-import java.io.IOException;
+import java.net.*;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
@@ -40,12 +42,11 @@ public class Webhook extends Privates {
 
     public static void main(String[] args) throws IOException {
 
-        String token = getAccessToken();
-        readResponses(formID, token);
-        DiscordWebhook webhook = new DiscordWebhook(url);
-        webhook.setAvatarUrl(avatarUrl);
-        webhook.setContent("Test");
-//        webhook.execute();
+        On.get("/fire").json()
+//        On.get("/fire")((Req req)) -> {
+//            Resp resp = req.response();
+//        }
+
     }
 
     public static String getAccessToken() throws IOException {
@@ -56,13 +57,21 @@ public class Webhook extends Privates {
                 credential.refreshAccessToken().getTokenValue();
     }
 
+    public static void fireWebhook() throws IOException {
+        String token = getAccessToken();
+        readResponses(formID, token);
+        DiscordWebhook webhook = new DiscordWebhook(url);
+        webhook.setAvatarUrl(avatarUrl);
+        webhook.setContent("Test");
+        webhook.execute();
+    }
+
 
     private static void readResponses(String formId, String token) throws IOException {
         ListFormResponsesResponse responses = formsService.forms().responses().list(formId).setOauthToken(token).execute();
-        String responseSTR = String.valueOf(formsService.forms().responses().list(formId).setOauthToken(token).execute());
         JSONObject json = new JSONObject(responses);
         JSONArray arr = json.getJSONArray("responses");
-        String responseID = arr.getJSONObject(0).getString("responseId");
+        String responseID = arr.getJSONObject(arr.length() - 1).getString("responseId");
         System.out.println(responses.toPrettyString());
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
         System.out.println(response.toPrettyString());
