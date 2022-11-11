@@ -41,3 +41,6 @@ target/
 # MACOS Files
 .DS_Store
 /.idea/
+
+# rapidoid config (has my ip)
+built-in-config.yml
