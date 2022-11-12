@@ -16,6 +16,8 @@ import org.rapidoid.setup.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 
@@ -48,7 +50,8 @@ public class Webhook extends Privates {
 
 
     public static void main(String[] args){
-        On.get("/fire").html((Req req) -> {
+
+        On.post("/fire").html((Req req) -> {
             Resp resp = req.response();
             fireWebhook();
             return resp;
@@ -80,13 +83,14 @@ public class Webhook extends Privates {
     }
 
     public static void readResponses(String formId, String token) throws IOException {
+
         ListFormResponsesResponse responses = formsService.forms().responses().list(formId).setOauthToken(token).execute();
         JSONObject goodJson = new JSONObject(responses);
         JSONArray arr = goodJson.getJSONArray("responses");
-        String responseID = arr.getJSONObject(arr.length() - 1).getString("responseId");
+        String responseID = arr.getJSONObject(0).getString("responseId");
         System.out.println(responses.toPrettyString());
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
-        System.out.println(response.toPrettyString());
+//        System.out.println(response.toPrettyString());
         JSONObject responseJson = new JSONObject(response);
 
 
