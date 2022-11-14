@@ -19,7 +19,7 @@ import java.util.Objects;
 
 
 
-public class Webhook extends restarting.Privates {
+public class Webhook extends Privates {
 
     final String question1Id = "059d7375", question2Id = "106fb4ba", question3Id = "01f8242e", question4Id = "69fbc838";
 
@@ -63,9 +63,9 @@ public class Webhook extends restarting.Privates {
     public static void fireWebhook() throws IOException {
 
         String token = getAccessToken();
-        readResponses(restarting.Privates.formID, token);
-        DiscordWebhook webhook = new DiscordWebhook(restarting.Privates.url);
-        webhook.setAvatarUrl(restarting.Privates.avatarUrl);
+        readResponses(Privates.formID, token);
+        DiscordWebhook webhook = new DiscordWebhook(Privates.url);
+        webhook.setAvatarUrl(Privates.avatarUrl);
         webhook.setContent("Test");
         webhook.execute();
     }
