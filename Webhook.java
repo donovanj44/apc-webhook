@@ -1,11 +1,11 @@
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.FormsScopes;
 import com.google.api.services.forms.v1.model.FormResponse;
 import com.google.api.services.forms.v1.model.ListFormResponsesResponse;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rapidoid.http.Req;
@@ -51,12 +51,17 @@ public class Webhook extends Privates {
 
     public static void main(String[] args){
 
-        On.post("/fire").html((Req req) -> {
+        On.get("/fire").html((Req req) -> {
             Resp resp = req.response();
             fireWebhook();
             return resp;
         });
 
+        On.post("/fire").html((Req req) -> {
+            Resp resp = req.response();
+            fireWebhook();
+            return resp;
+        });
 
     }
 
@@ -88,9 +93,9 @@ public class Webhook extends Privates {
         JSONObject goodJson = new JSONObject(responses);
         JSONArray arr = goodJson.getJSONArray("responses");
         String responseID = arr.getJSONObject(0).getString("responseId");
-        System.out.println(responses.toPrettyString());
+        System.out.println(responses);
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
-//        System.out.println(response.toPrettyString());
+        System.out.println(response.toPrettyString());
         JSONObject responseJson = new JSONObject(response);
 
 
