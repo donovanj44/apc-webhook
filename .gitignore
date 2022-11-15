@@ -27,3 +27,4 @@ target/
 src/
 /test-classes/
 test-classes/
+*/target/*
