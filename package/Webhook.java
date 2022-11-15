@@ -50,7 +50,12 @@ public class Webhook extends Privates {
         On.get("/fire").html((Req req) -> {
             Resp resp = req.response();
             fireWebhook();
-            return resp;
+            return "resp";
+        });
+        On.post("/fire").html((Req req) -> {
+            Resp resp = req.response();
+            fireWebhook();
+            return "resp";
         });
 
 
