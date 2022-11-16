@@ -7,7 +7,6 @@ import com.google.api.services.forms.v1.model.ListFormResponsesResponse;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.json.*;
 import org.rapidoid.http.Req;
-import org.rapidoid.http.Resp;
 import org.rapidoid.setup.*;
 
 
@@ -58,7 +57,6 @@ public class Webhook extends Privates {
 
     public static void main(String[] args) {
         On.get("/fire").html((Req req) -> {
-            Resp resp = req.response();
             fireWebhook();
             return "fired";
         });
@@ -98,8 +96,6 @@ public class Webhook extends Privates {
         JSONObject goodJson = new JSONObject(responses);
         JSONArray arr = goodJson.getJSONArray("responses");
         String responseID = arr.getJSONObject(arr.length() - 1).getString("responseId");
-        FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
-        JSONObject responseJson = new JSONObject(response);
         for (int i = 0; i < arr.length(); i++){
             check = formsService.forms().responses().get(formId,responseID).setOauthToken(token).execute();
             checkLDT = LocalDateTime.parse(arr.getJSONObject(i).getString("lastSubmittedTime").substring(0, arr.getJSONObject(i).getString("lastSubmittedTime").length() - 3));
