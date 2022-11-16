@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ public class DiscordWebhook {
     private List<EmbedObject> embeds = new ArrayList<>();
 
     /**
-     * Constructs a new restarting.DiscordWebhook instance
+     * Constructs a new DiscordWebhook instance
      *
      * @param url The webhook URL obtained in Discord
      */
@@ -140,12 +141,12 @@ public class DiscordWebhook {
         URL url = new URL(this.url);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.addRequestProperty("Content-Type", "application/json");
-        connection.addRequestProperty("User-Agent", "Java-restarting.DiscordWebhook-BY-Gelox_");
+        connection.addRequestProperty("User-Agent", "Java-DiscordWebhook-BY-Gelox_");
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
 
         OutputStream stream = connection.getOutputStream();
-        stream.write(json.toString().getBytes("UTF-8"));
+        stream.write(json.toString().getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
 

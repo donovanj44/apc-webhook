@@ -1,29 +1,33 @@
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.gson.*;
 import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.FormsScopes;
 import com.google.api.services.forms.v1.model.FormResponse;
 import com.google.api.services.forms.v1.model.ListFormResponsesResponse;
 import com.google.auth.oauth2.GoogleCredentials;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 import org.rapidoid.http.Req;
 import org.rapidoid.http.Resp;
 import org.rapidoid.setup.*;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
 
 public class Webhook extends Privates {
 
-    final String question1Id = "059d7375", question2Id = "106fb4ba", question3Id = "01f8242e", question4Id = "69fbc838";
+    public static final String question1Id = "059d7375";
+    public static final String question2Id = "106fb4ba";
+    public static final String question3Id = "01f8242e";
+    public static final String question4Id = "69fbc838";
 
-    String name, college, major;
+    static String name;
+    static String college;
+    static String major;
 
     public static LocalDateTime dateTime = LocalDateTime.parse("2017-01-14T15:32:56.000");
     public static LocalDateTime checkLDT;
@@ -68,8 +72,17 @@ public class Webhook extends Privates {
         readResponses(Privates.formID, token);
         DiscordWebhook webhook = new DiscordWebhook(Privates.url);
         webhook.setAvatarUrl(Privates.avatarUrl);
-        webhook.setContent("Test");
-//        webhook.execute();
+//        webhook.setContent("Test");
+        webhook.addEmbed(new DiscordWebhook.EmbedObject()
+                .setTitle("New Senior Map Response!")
+                .setColor(Color.RED)
+                .addField("Name", name, false)
+                .addField("College", college, false)
+                .addField("Major", major, false)
+//                .setThumbnail("https://kryptongta.com/images/kryptonlogo.png")
+                .setUrl("https://apc-mhs.com/seniormap/"));
+        webhook.addEmbed(new DiscordWebhook.EmbedObject());
+        webhook.execute();
     }
 
     public static String getAccessToken() throws IOException {
@@ -85,23 +98,31 @@ public class Webhook extends Privates {
         JSONObject goodJson = new JSONObject(responses);
         JSONArray arr = goodJson.getJSONArray("responses");
         String responseID = arr.getJSONObject(arr.length() - 1).getString("responseId");
-//        System.out.println(responses.toPrettyString());
         FormResponse response = formsService.forms().responses().get(formId, responseID).setOauthToken(token).execute();
-//        System.out.println(response.toPrettyString());
         JSONObject responseJson = new JSONObject(response);
         for (int i = 0; i < arr.length(); i++){
             check = formsService.forms().responses().get(formId,responseID).setOauthToken(token).execute();
             checkLDT = LocalDateTime.parse(arr.getJSONObject(i).getString("lastSubmittedTime").substring(0, arr.getJSONObject(i).getString("lastSubmittedTime").length() - 3));
             if(checkLDT.isAfter(dateTime)){
                 dateTime = checkLDT;
-//                System.out.println(dateTime);
             }
         }
         ListFormResponsesResponse returnedResponse = formsService.forms().responses().list(formId).setOauthToken(getAccessToken()).setFilter("timestamp >= " + dateTime.toString() + "Z").execute();
-        System.out.println(returnedResponse.toPrettyString());
         JSONObject returnedJSON = new JSONObject(returnedResponse);
-        JSONArray arr2 = returnedJSON.getJSONArray("responses");
-        JSONArray arr3 = arr2.getJSONArray(1);
+        name = getQuestionResponses(returnedJSON, question1Id) + getQuestionResponses(returnedJSON, question2Id);
+        college = getQuestionResponses(returnedJSON, question3Id);
+        major = getQuestionResponses(returnedJSON, question4Id);
+    }
+
+    public static String getQuestionResponses(JSONObject returnedJSON, String questionId){
+        return returnedJSON.getJSONArray("responses")
+                .getJSONObject(0)
+                .getJSONObject("answers")
+                .getJSONObject(questionId)
+                .getJSONObject("textAnswers")
+                .getJSONArray("answers")
+                .getJSONObject(0)
+                .getString("value");
     }
 
 }
