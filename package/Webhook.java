@@ -10,7 +10,6 @@ import org.rapidoid.http.Req;
 import org.rapidoid.setup.*;
 
 
-import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Objects;
@@ -67,19 +66,19 @@ public class Webhook extends Privates {
     public static void fireWebhook() throws IOException {
 
         String token = getAccessToken();
-        readResponses(Privates.formID, token);
-        DiscordWebhook webhook = new DiscordWebhook(Privates.url);
-        webhook.setAvatarUrl(Privates.avatarUrl);
-//        webhook.setContent("Test");
+        readResponses(formID, token);
+        DiscordWebhook webhook = new DiscordWebhook(url);
+        webhook.setAvatarUrl(avatarUrl);
+//        webhook.setContent("New Submission");
+        webhook.setUsername("Senior Map Alerts");
+        webhook.setTts(false);
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
                 .setTitle("New Senior Map Response!")
-                .setColor(Color.RED)
+//                .setColor(Color.RED)
                 .addField("Name", name, false)
-                .addField("College", college, false)
-                .addField("Major", major, false)
-//                .setThumbnail("https://kryptongta.com/images/kryptonlogo.png")
+                .addField("College", college, true)
+                .addField("Major", major, true)
                 .setUrl("https://apc-mhs.com/seniormap/"));
-        webhook.addEmbed(new DiscordWebhook.EmbedObject());
         webhook.execute();
     }
 
@@ -105,7 +104,7 @@ public class Webhook extends Privates {
         }
         ListFormResponsesResponse returnedResponse = formsService.forms().responses().list(formId).setOauthToken(getAccessToken()).setFilter("timestamp >= " + dateTime.toString() + "Z").execute();
         JSONObject returnedJSON = new JSONObject(returnedResponse);
-        name = getQuestionResponses(returnedJSON, question1Id) + getQuestionResponses(returnedJSON, question2Id);
+        name = getQuestionResponses(returnedJSON, question1Id) + " " + getQuestionResponses(returnedJSON, question2Id);
         college = getQuestionResponses(returnedJSON, question3Id);
         major = getQuestionResponses(returnedJSON, question4Id);
     }
