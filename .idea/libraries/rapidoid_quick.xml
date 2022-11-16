@@ -1,0 +1,70 @@
+<component name="libraryTable">
+  <library name="rapidoid.quick" type="repository">
+    <properties maven-id="org.rapidoid:rapidoid-quick:5.5.5" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-quick-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-web-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-gui-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-render-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-jpa-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-http-server-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-http-fast-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-inject-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-http-client-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-net-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-buffer-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpasyncclient-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-nio-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-sql-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-commons-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-essentials-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-module-afterburner-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-dataformat-yaml-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/snakeyaml-1.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-dataformat-xml-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-module-jaxb-annotations-2.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/stax2-api-3.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/woodstox-core-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-watch-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-integrate-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rapidoid-oauth-5.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.apache.oltu.oauth2.client-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.apache.oltu.oauth2.common-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/json-20140107.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logback-classic-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logback-core-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-5.1.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hsqldb-2.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-entitymanager-4.3.11.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-logging-3.1.3.GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-logging-annotations-1.2.0.Beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-core-4.3.11.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/antlr-2.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jandex-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dom4j-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xml-apis-1.0.b2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-commons-annotations-4.0.5.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-validator-5.2.4.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/classmate-1.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/HikariCP-2.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.el-api-2.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.el-2.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
