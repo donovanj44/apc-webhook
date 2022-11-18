@@ -92,7 +92,7 @@ public class Webhook extends Privates {
     public static void main(String[] args) {
         On.get("/fire").html((Req req) -> {
             fireWebhook();
-            return "fired";
+            return "Fired " + name + " " + college + " " + major;
         });
 
     }
@@ -205,7 +205,6 @@ public class Webhook extends Privates {
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
-            System.out.println("Name, Major");
             for (List row : values) {
                 int i = 0;
             }
@@ -232,12 +231,9 @@ public class Webhook extends Privates {
 
     public static String getCollegeImage(String college, String[][] array) {
         for (int i = 0; i < array.length + 2; i++)         {
-            System.out.println(i);
-            System.out.println(college);
-            System.out.println(array[i][0]);
+
             if (array[i][0].equals(college.trim())) {
                 collegeImageUrl = array[i][1];
-                System.out.println(collegeImageUrl);
                 return collegeImageUrl;
             }
         }
