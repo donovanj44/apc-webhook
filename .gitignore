@@ -29,3 +29,4 @@ src/
 test-classes/
 */target/*
 target/
+.idea/workspace.xml
