@@ -182,7 +182,7 @@ public class Webhook extends Privates {
         } else {
             System.out.println("Name, Major");
             for (List row : values) {
-                // Print columns A and E, which correspond to indices 0 and 4.
+                // Print columns A and B, which correspond to indices 0 and 1.
                 System.out.printf("%s, %s\n", row.get(0), row.get(1));
             }
         }
