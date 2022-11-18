@@ -30,12 +30,14 @@ import com.fasterxml.jackson.databind.*;
 
 
 import javax.print.DocFlavor;
+import java.awt.*;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.util.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +54,7 @@ public class Webhook extends Privates {
     static String name;
     static String college;
     static String major;
+    static String collegeImageUrl;
 
 
     public static LocalDateTime dateTime = LocalDateTime.parse("2017-01-14T15:32:56.000");
@@ -99,22 +102,31 @@ public class Webhook extends Privates {
 
         String token = getAccessToken();
         readResponses(formID, token);
-        printData(spreadsheetID);
         DiscordWebhook webhook = new DiscordWebhook(url);
         webhook.setAvatarUrl(avatarUrl);
-//        webhook.setContent("New Submission");
+        webhook.setContent("New Submission");
         webhook.setUsername("Senior Map Alerts");
         webhook.setTts(false);
         webhook.addEmbed(new DiscordWebhook.EmbedObject().setTitle("New Senior Map Response!")
-//                .setColor(Color.RED)
-                .addField("Name", name, false).addField("College", college, true).addField("Major", major, true).setUrl("https://apc-mhs.com/seniormap/"));
-//        webhook.execute();
+                .setColor(Color.RED)
+                .addField("Name", name, false)
+                .addField("College", college, true)
+                .addField("Major", major, true)
+                .setUrl("https://apc-mhs.com/seniormap/")
+                .setThumbnail(getCollegeImage(college, generateArray(spreadsheetID)))
+        );
+        webhook.execute();
         System.out.println("Fired " + name + " " + college + " " + major);
     }
 
     public static String getAccessToken() throws IOException {
-        GoogleCredentials credential = GoogleCredentials.fromStream(Objects.requireNonNull(Webhook.class.getResourceAsStream("creds.json"))).createScoped(FormsScopes.all());
-        return credential.getAccessToken() != null ? credential.getAccessToken().getTokenValue() : credential.refreshAccessToken().getTokenValue();
+        GoogleCredentials credential = GoogleCredentials
+                .fromStream(Objects.requireNonNull(Webhook.class.getResourceAsStream("creds.json")))
+                .createScoped(FormsScopes.all());
+        return credential.getAccessToken() != null ? credential
+                .getAccessToken().getTokenValue() : credential
+                .refreshAccessToken()
+                .getTokenValue();
     }
 
 
@@ -166,30 +178,70 @@ public class Webhook extends Privates {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH))).setAccessType("offline").build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow
+                .Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                .setAccessType("offline")
+                .build();
+        LocalServerReceiver receiver = new LocalServerReceiver
+                .Builder()
+                .setPort(8888)
+                .build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public static void printData(String spreadsheetId) throws GeneralSecurityException, IOException {
+    public static String[][] generateArray(String spreadsheetId) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String range = "logos!A2:B218";
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT)).setApplicationName(APPLICATION_NAME).build();
-        ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        ValueRange response = service
+                .spreadsheets()
+                .values()
+                .get(spreadsheetId, range)
+                .execute();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
             System.out.println("Name, Major");
             for (List row : values) {
-                // Print columns A and B, which correspond to indices 0 and 1.
-                System.out.printf("%s, %s\n", row.get(0), row.get(1));
+                int i = 0;
             }
         }
+
+        String[][] array = values.stream()
+                .map(l -> l.stream().toArray(String[]::new))
+                .toArray(String[][]::new);
+
+        return array;
     }
 
     public static String getQuestionResponses(JSONObject returnedJSON, String questionId) {
-        return returnedJSON.getJSONArray("responses").getJSONObject(0).getJSONObject("answers").getJSONObject(questionId).getJSONObject("textAnswers").getJSONArray("answers").getJSONObject(0).getString("value");
+        return returnedJSON
+                .getJSONArray("responses")
+                .getJSONObject(0)
+                .getJSONObject("answers")
+                .getJSONObject(questionId)
+                .getJSONObject("textAnswers")
+                .getJSONArray("answers")
+                .getJSONObject(0)
+                .getString("value");
+    }
+
+    public static String getCollegeImage(String college, String[][] array) {
+        for (int i = 0; i < array.length + 2; i++)         {
+            System.out.println(i);
+            System.out.println(college);
+            System.out.println(array[i][0]);
+            if (array[i][0].equals(college.trim())) {
+                collegeImageUrl = array[i][1];
+                System.out.println(collegeImageUrl);
+                return collegeImageUrl;
+            }
+        }
+        return collegeImageUrl;
     }
 
 }
