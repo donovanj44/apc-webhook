@@ -43,19 +43,18 @@ import java.util.stream.Collectors;
 
 public class Webhook extends Privates {
 
-    public static final String question1Id = "059d7375";
-    public static final String question2Id = "106fb4ba";
-    public static final String question3Id = "01f8242e";
-    public static final String question4Id = "69fbc838";
+    public static final String question1Id = "698c9d08";
+    public static final String question2Id = "65953c89";
+    public static final String question3Id = "59d64b84";
+    public static final String question4Id = "16c32375";
 
     static String sheetName = "logos";
-    static String range = "A1:B218";
 
     static String name;
     static String college;
     static String major;
     static String collegeImageUrl;
-
+    static String notFoundImage = "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg";
 
     public static LocalDateTime dateTime = LocalDateTime.parse("2017-01-14T15:32:56.000");
     public static LocalDateTime checkLDT;
@@ -107,14 +106,25 @@ public class Webhook extends Privates {
         webhook.setContent("New Submission");
         webhook.setUsername("Senior Map Alerts");
         webhook.setTts(false);
-        webhook.addEmbed(new DiscordWebhook.EmbedObject().setTitle("New Senior Map Response!")
-                .setColor(Color.RED)
-                .addField("Name", name, false)
-                .addField("College", college, true)
-                .addField("Major", major, true)
-                .setUrl("https://apc-mhs.com/seniormap/")
-                .setThumbnail(getCollegeImage(college, generateArray(spreadsheetID)))
-        );
+        if (getCollegeImage(college, generateArray(spreadsheetID)).equals(notFoundImage)) {
+            webhook.addEmbed(new DiscordWebhook.EmbedObject().setTitle("Invalid Response Found!")
+                    .setColor(Color.RED)
+                    .addField("Name", name, false)
+                    .addField("College (Issue is probably here)", college, true)
+                    .addField("Major", major, true)
+                    .setUrl("https://apc-mhs.com/seniormap/")
+                    .setImage(getCollegeImage(college, generateArray(spreadsheetID)))
+            );
+        } else {
+            webhook.addEmbed(new DiscordWebhook.EmbedObject().setTitle("New Senior Map Response!")
+                    .setColor(Color.RED)
+                    .addField("Name", name, false)
+                    .addField("College", college, true)
+                    .addField("Major", major, true)
+                    .setUrl("https://apc-mhs.com/seniormap/")
+                    .setImage(getCollegeImage(college, generateArray(spreadsheetID)))
+            );
+        }
         webhook.execute();
         System.out.println("Fired " + name + " " + college + " " + major);
     }
@@ -192,7 +202,7 @@ public class Webhook extends Privates {
 
     public static String[][] generateArray(String spreadsheetId) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String range = "logos!A2:B218";
+        final String range = "logos!A2:B1000";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
@@ -230,8 +240,8 @@ public class Webhook extends Privates {
     }
 
     public static String getCollegeImage(String college, String[][] array) {
-        for (int i = 0; i < array.length + 2; i++)         {
-
+        collegeImageUrl = notFoundImage;
+        for (int i = 0; i < array.length; i++) {
             if (array[i][0].equals(college.trim())) {
                 collegeImageUrl = array[i][1];
                 return collegeImageUrl;
